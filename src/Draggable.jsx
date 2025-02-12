@@ -1,8 +1,8 @@
 import { useDraggable } from "@dnd-kit/core";
 
-export default function Draggable(props) {
+export default function Draggable({id, children}) {
     const {attributes, listeners, setNodeRef, transform} = useDraggable({
-        id: 'draggable',
+        id,
     });
 
     const style = transform ? {
@@ -10,8 +10,8 @@ export default function Draggable(props) {
     } : undefined;
 
   return (
-    <button ref={setNodeRef} style={style} {...listeners} {...attributes}>
-        {props.children}
+    <button ref={setNodeRef} style={style} {...listeners} {...attributes} className="bg-pink-300 text-white px-4 py-2 rounded">
+        {children}
     </button>
   );
 }
