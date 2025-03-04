@@ -4,15 +4,15 @@ import Droppable from "./Droppable";
 import Draggable from "./Draggable";
 
 export default function Map() {
-  const [droppedItem, setDroppedItem] = useState(null); // null as no id of droppable item is present yet
-  // once droppable item is dropped, we exchanged the null to the id
-  const [dropzoneCount, setDropzoneCount] = useState(1); // default: 1 dropzones
+  const [occupiedDropzones, setOccupiedDropzones] = useState([]); // Track multiple occupied zones
+  const [dropzoneCount, setDropzoneCount] = useState(1); // Default: 1 dropzones
+  const [draggables, setDraggables] = useState([]); // Track draggable items
 
-  // function: handle resizing and update dropzone count
+  // Function: Handle resizing and update dropzone count
   useEffect(() => {
     function updateDropzones() {
       const width = window.innerWidth;
-      if(width >= 1024) {
+      if (width >= 1024) {
         setDropzoneCount(7);
       } else if (width >= 768) {
         setDropzoneCount(5);
@@ -23,15 +23,30 @@ export default function Map() {
 
     // Run on mount and listen for resizing
     updateDropzones();
-    window.addEventListener('resize', updateDropzones);
-    return () => window.removeEventListener('resize', updateDropzones);
+    window.addEventListener("resize", updateDropzones);
+    return () => window.removeEventListener("resize", updateDropzones);
   }, []);
 
   function handleDragEnd(event) {
     const { active, over } = event;
 
     if (over) {
-      setDroppedItem(over.id); // save the dragged item's ID
+      const nextAvailableSlot = `dropzone-${occupiedDropzones.length + 1}`;
+
+      if (
+        over.id === nextAvailableSlot &&
+        !occupiedDropzones.includes(over.id)
+      ) {
+        setOccupiedDropzones([...occupiedDropzones, over.id]);
+        // Remove the dropped draggable from the list
+        setDraggables((prev) => prev.filter((d) => d !== active.id));
+      }
+    }
+  }
+
+  function addDraggable() {
+    if (occupiedDropzones.length + draggables.length < dropzoneCount) {
+      setDraggables([...draggables, `drag-item-${draggables.length + 1}`]);
     }
   }
 
@@ -45,19 +60,29 @@ export default function Map() {
       <div className="p-4">
         <DndContext onDragEnd={handleDragEnd}>
           {/* Responsive container */}
-          <div className="flex flex-wrap gap-4 justify-center md:justify-start items-center mx-auto max-w-6xl">
+          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-4">
             {/* Drop zones */}
-            {[...Array(dropzoneCount)].map((_, index) => (
-               <Droppable key={index} id={`dropzone-${index + 1}`}>
-               {droppedItem === `dropzone-${index + 1}` ? "📫" : "📪"}
-             </Droppable>
-            ))}
+            {[...Array(dropzoneCount)].map((_, index) => {
+              const id = `dropzone-${index + 1}`;
+              return (
+                <Droppable key={id} id={id}>
+                  {occupiedDropzones.includes(id) ? "📫" : "📪"}
+                </Droppable>
+              );
+            })}
           </div>
 
-          <div className="mt-5 flex justify-center">
-            {!droppedItem && <Draggable id="drag-item-1">💌</Draggable>}
+          <div className="mt-5 flex justify-center gap-4">
+          {draggables.map((id) => (
+            <Draggable key={id} id={id}>💌</Draggable>
+          ))}
           </div>
         </DndContext>
+
+        {/* Add Draggable button */}
+        <div className="mt-4 flex justify-center">
+          <button onClick={addDraggable} className="bg-green-500 text-white px-4 py-2 rounded cursor-pointer" disabled={occupiedDropzones.length + draggables.length >= dropzoneCount}>+ New</button>
+        </div>
       </div>
     </>
   );

@@ -6,7 +6,7 @@ export default function Droppable({id, children}) {
     });
 
   return (
-    <div ref={setNodeRef} className="bg-blue-300 text-white font-medium w-30 h-30 flex items-center justify-center m-3">
+    <div ref={setNodeRef} className="bg-blue-300 text-white font-medium w-20 h-20 flex items-center justify-center">
         {children}
     </div>
   );
