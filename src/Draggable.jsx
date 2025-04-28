@@ -1,19 +1,21 @@
-import { useDraggable } from "@dnd-kit/core";
+import React from 'react'
+import { useDraggable } from '@dnd-kit/core'
 
-export default function Draggable({id, children}) {
-    const {attributes, listeners, setNodeRef, transform} = useDraggable({
-        id,
-    });
+const itemStyle = {
+  display: "flex",
+  width: "30px",
+  height: "30px",
+  background: "lightpink",
+};
 
-    const style = {
-      position: 'relative', // To ensure z-index works
-      zIndex: 1,
-      transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
-    }
+export default function Draggable(props) {
+  const {attributes, listeners, setNodeRef, transform} = useDraggable({
+    id: 'draggable',
+  });
+
+  const style = transform ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`, } : undefined;
 
   return (
-    <button ref={setNodeRef} style={style} {...listeners} {...attributes} className="bg-pink-300 text-white px-4 py-2 rounded">
-        {children}
-    </button>
-  );
+    <button ref={setNodeRef} style={{...style, ...itemStyle}} {...listeners} {...attributes}>{props.children}</button>
+  )
 }
