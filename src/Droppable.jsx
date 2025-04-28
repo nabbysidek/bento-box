@@ -9,10 +9,12 @@ export default function Droppable(props) {
   const style = {
     background: "lightblue",
     display: "flex",
-    width: "600px",
-    height: "600px",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100vw",
+    height: "100vh",
     fontWeight: "bold",
-    color: isOver ? "lightpink" : undefined,
+    color: isOver ? "#F9629F" : undefined,
   };
 
   return (

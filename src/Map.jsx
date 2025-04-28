@@ -4,25 +4,23 @@ import Droppable from './Droppable'
 import Draggable from './Draggable'
 
 export default function Map() {
-  const [isDropped, setDropped] = useState(false);
-  const draggableMarkup = (
-    <Draggable>🩵</Draggable>
-  );
+  const [position, setPosition] = useState({x: 0, y: 0});
+
+  function handleDragEnd(event) {
+    const { delta } = event; // delta is the amount moved during the drag
+    setPosition(prev => ({
+      x: prev.x + delta.x,
+      y: prev.y + delta.y,
+    }));
+  };
 
   return (
     <div>
       <DndContext onDragEnd={handleDragEnd}>
-        {!isDropped ? draggableMarkup : null}
         <Droppable>
-          {isDropped ? draggableMarkup : "HERE!"}
+          <Draggable position={position}>🩵</Draggable>
         </Droppable>
       </DndContext>
     </div>
   );
-
-  function handleDragEnd(event) {
-    if(event.over && event.over.id === "droppable") {
-      setDropped(true);
-    }
-  }
 }
