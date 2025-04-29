@@ -1,8 +1,8 @@
-import React from 'react'
-import { useDroppable } from '@dnd-kit/core'
+import React, { forwardRef } from 'react';
+import { useDroppable } from '@dnd-kit/core';
 
-export default function Droppable(props) {
-  const {isOver, setNodeRef} = useDroppable({
+const Droppable = forwardRef((props, ref) => {
+  const { isOver, setNodeRef } = useDroppable({
     id: "droppable",
   });
 
@@ -11,15 +11,28 @@ export default function Droppable(props) {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "100vw",
-    height: "100vh",
+    width: "300px",
+    height: "300px",
     fontWeight: "bold",
     color: isOver ? "#F9629F" : undefined,
   };
 
+  // Connect both the dnd-kit ref and your forwarded ref
   return (
-    <div ref={setNodeRef} style={style}>
+    <div
+      ref={(node) => {
+        setNodeRef(node);     // Required by dnd-kit
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      }}
+      style={style}
+    >
       {props.children}
     </div>
-  )
-}
+  );
+});
+
+export default Droppable;
