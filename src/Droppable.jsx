@@ -7,12 +7,13 @@ const Droppable = forwardRef((props, ref) => {
   });
 
   const style = {
+    position: "relative",
     background: "lightblue",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "300px",
-    height: "300px",
+    width: "600px",
+    height: "400px",
     fontWeight: "bold",
     color: isOver ? "#F9629F" : undefined,
   };

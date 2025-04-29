@@ -18,6 +18,8 @@ export default function Draggable({children, position}) {
     id: 'draggable',
   });
 
+  if (!position) return null;
+
   const translate = transform 
   ? { x: position.x + transform.x, y: position.y + transform.y }
   : position;
