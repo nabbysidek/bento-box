@@ -13,9 +13,9 @@ const itemStyle = {
   left: 0,
 };
 
-export default function Draggable({children, position}) {
+export default function Draggable({children, position, id}) {
   const {attributes, listeners, setNodeRef, transform} = useDraggable({
-    id: 'draggable',
+    id,
   });
 
   if (!position) return null;
