@@ -1,11 +1,14 @@
-import './styles.css'
+import Map from "./Map";
+import "./styles.css";
 
 function App() {
   return (
     <>
-      <h1 className='font-semibold'>Initial Setup for Tailwind</h1>
+      <div className="max-w-screen max-h-screen m-6">
+        <Map />
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
