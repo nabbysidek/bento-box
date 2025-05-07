@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 
 const Droppable = forwardRef((props, ref) => {
+  // forwardRef is to expose the DOM element to its parent (so Map can call .getBoundingClientRect() ).
   const { isOver, setNodeRef } = useDroppable({
     id: "droppable",
   });
@@ -23,7 +24,7 @@ const Droppable = forwardRef((props, ref) => {
       ref={(node) => {
         setNodeRef(node);     // Required by dnd-kit
         if (typeof ref === 'function') {
-          ref(node);
+          ref(node); // Hnalde functional refs (gives Map access to the DOM node)
         } else if (ref) {
           ref.current = node;
         }

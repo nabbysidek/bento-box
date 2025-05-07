@@ -14,8 +14,15 @@ const itemStyle = {
 };
 
 export default function Draggable({children, position, id}) {
+  // Take up 'id' as props to generate more draggables
   const {attributes, listeners, setNodeRef, transform} = useDraggable({
+    // This means only one draggable is exected
+    // id: 'draggable'
+
     id,
+    // This id as a prop
+    // We're passing id from the Map like id='1', id-'2'
+    // Each draggable now has a unique ID
   });
 
   if (!position) return null;
@@ -23,6 +30,9 @@ export default function Draggable({children, position, id}) {
   const translate = transform 
   ? { x: position.x + transform.x, y: position.y + transform.y }
   : position;
+  // position is our home base for the draggable
+  // transform here is the live drag movement
+  // this is to ensure we get a smooth live preview while dragging
 
   const style = {
     ...itemStyle,

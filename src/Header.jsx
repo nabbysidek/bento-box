@@ -1,9 +1,11 @@
 import React from "react";
 
 export default function Header({ onAddDraggable }) {
+  // onAddDraggable is passed into the Header component as a prop
   return (
     <div>
-      <nav className="bg-white border-b-1 border-gray-200 dark:bg-black">
+      {/* Header section */}
+      <div className="bg-gray-300 border-b-1 border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-1.5">
           <a
             href="/"
@@ -30,11 +32,12 @@ export default function Header({ onAddDraggable }) {
               bento
             </span>
           </a>
+          {/* New post button */}
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button
               type="button"
-              className="cursor-pointer text-white bg-purple-500 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-200 font-medium rounded-full text-xs px-4 py-2 text-center dark:bg-purple-500 dark:hover:bg-purple-600 dark:focus:ring-purple-800"
-              onClick={onAddDraggable}
+              className="cursor-pointer text-white bg-gray-500 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-full text-xs px-4 py-2 text-center dark:bg-gray-500 dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+              onClick={onAddDraggable} // When the button is (onClick), it triggers the onAddDraggable function defined in the Map component
             >
               <span className="flex items-center justify-between">
                 <svg
@@ -56,7 +59,7 @@ export default function Header({ onAddDraggable }) {
             </button>
           </div>
         </div>
-      </nav>
+      </div>
     </div>
   );
 }
